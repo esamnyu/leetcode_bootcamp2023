@@ -1,0 +1,24 @@
+def isIsomorphic(s: str, t: str) -> bool:
+    if len(s) != len(t):
+        return False
+    
+    mapping_st = {} # s -> t
+    mapping_ts = {} # t -> s
+
+    for i in range(len(s)):
+        if s[i] not in mapping_st:
+            mapping_st[s[i]] = t[i]
+        elif mapping_st[s[i]] != t[i]:
+            return False
+
+        if t[i] not in mapping_ts:
+            mapping_ts[t[i]] = s[i]
+        elif mapping_ts[t[i]] != s[i]:
+            return False
+        
+    return True
+
+# Usage
+s = "egg"
+t = "add"
+print(isIsomorphic(s, t))  # Output: True
