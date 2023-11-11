@@ -1,0 +1,54 @@
+def canFinish(numCourses, prerequisites):
+    # Create a graph using an adjacency list
+    # An adjacency list is a way to represent a graph where each node (key)
+    # maps to a list of all adjacent nodes (values).
+    graph = [[] for _ in range(numCourses)]
+
+    # Populate the graph with the given prerequisites
+    for course, prereq in prerequisites:
+        graph[course].append(prereq)
+
+    # A visited set to keep track of visited nodes during DFS
+    # This helps to avoid revisiting the same node and getting into an infinite loop.
+    visited = set()
+
+    # Helper function for DFS
+    def dfs(course):
+        # If the course is already in visited, we've detected a cycle
+        if course in visited:
+            return False
+
+        # If the course has no prerequisites, it means we can finish this course
+        if not graph[course]:
+            return True
+
+        # Add the course to the visited set
+        visited.add(course)
+
+        # Visit all the prerequisites of the current course
+        for prereq in graph[course]:
+            if not dfs(prereq):
+                return False
+
+        # Remove the course from visited to allow other paths to explore it
+        visited.remove(course)
+
+        # Clear the prerequisites of this course to indicate it's been processed
+        graph[course] = []
+
+        return True
+
+    # Iterate over all courses and perform DFS
+    for course in range(numCourses):
+        if not dfs(course):
+            # If DFS returns False, a cycle is detected
+            # hence, it's not possible to finish all courses
+            return False
+
+    # If no cycle is detected, it's possible to finish all courses
+    return True
+
+# Example usage
+numCourses = 2
+prerequisites = [[1, 0]]  # To take course 1, you should have finished course 0
+print(canFinish(numCourses, prerequisites))
