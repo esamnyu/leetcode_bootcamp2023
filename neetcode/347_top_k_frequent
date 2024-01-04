@@ -1,0 +1,30 @@
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # Create a frequency map to record the count of each occurence
+        # If we have an array - nums = [1, 1, 1, 2, 2, 3]
+        # The frequency map will be {1: 3, 2: 2, 3: 1}
+        # We want to sort the elements by frequency
+        # Convert the the frequency map into a list of (element, frequency) pairs
+        # We want the top k (top 2) 
+        # We'll eventually return just the elements and not the frequencyes, so just return this as 
+        # an array 
+
+        frequency_map = {}
+        # print(nums)
+        # This accesses each element in the array - populate the frequency map with elements coresponding to frequencies
+        for i in nums:
+            if i not in frequency_map:
+                frequency_map[i] = 1
+            else:
+                frequency_map[i] = frequency_map[i]+1
+
+        frequency_list = list(frequency_map.items())
+        sorted_list = sorted(frequency_list, key = lambda x: x[1], reverse = True)
+
+        top_k_elements = []
+        #Given this range, we want to return the top k most frequent elements
+        for i in range(k):
+            top_k_elements.append(sorted_list[i][0])
+        
+        return top_k_elements
+     
